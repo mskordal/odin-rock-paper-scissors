@@ -12,11 +12,17 @@ function getComputerChoice() {
 		return "scissors";
 }
 
+/* Prompt user to typer "rock" "paper" "scissors" or cancel */
 function getHumanChoice() {
 	let choice = "start";
-	choice = prompt("Enter rock, paper or scissors").toLowerCase();
-	while (choice != "rock" && choice != "paper" && choice != "scissors")
-		choice = prompt("Wrong input! Enter rock, paper or scissors");
+	choice = prompt("Enter rock, paper or scissors");
+	if(choice != null)
+			choice = choice.toLowerCase();
+	while (choice != "rock" && choice != "paper" && choice != "scissors" && choice != null) {
+		choice = prompt("Enter rock, paper or scissors");
+		if(choice != null)
+			choice = choice.toLowerCase();
+	}
 	return choice;
 }
 
@@ -46,8 +52,16 @@ function playRound(humanChoice, computerChoice) {
 }
 
 function playGame() {
-	for (let rounds = 0; rounds < 5; rounds++)
-		playRound(getHumanChoice(), getComputerChoice());
+	for (let rounds = 0; rounds < 5; rounds++) {
+		let humanChoice = getHumanChoice();
+		if (humanChoice == null) {
+			console.log("Game terminated by user!")
+			console.log("Human Score: " + humanScore + "  -  Computer Score: " + computerScore);
+			break;
+		}
+		let computerChoice = getComputerChoice();
+		result = playRound(humanChoice, computerChoice);
+	}
 }
 
 playGame();
