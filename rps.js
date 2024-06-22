@@ -1,5 +1,6 @@
 let humanScore = 0;
 let computerScore = 0;
+let rounds = 0;
 
 /* Randomly return "rock", "paper" or "scissors" */
 function getComputerChoice() {
@@ -12,56 +13,56 @@ function getComputerChoice() {
 		return "scissors";
 }
 
-/* Prompt user to typer "rock" "paper" "scissors" or cancel */
-function getHumanChoice() {
-	let choice = "start";
-	choice = prompt("Enter rock, paper or scissors");
-	if(choice != null)
-			choice = choice.toLowerCase();
-	while (choice != "rock" && choice != "paper" && choice != "scissors" && choice != null) {
-		choice = prompt("Enter rock, paper or scissors");
-		if(choice != null)
-			choice = choice.toLowerCase();
+function playRound(event)
+{
+	let humanChoice = event.target.value;
+	let computerChoice = getComputerChoice();
+	let resultPar = document.querySelector("#result");
+	let roundsPar = document.querySelector("#rounds");
+	let scorePar = document.querySelector("#score");
+
+	rounds++;
+	if (humanChoice == computerChoice)
+	{
+		resultPar.innerText = "It's tie! Both players chose " + humanChoice + "!";
 	}
-	return choice;
+	else if(humanChoice == "rock" && computerChoice == "paper")
+	{
+		computerScore++;
+		resultPar.innerText = "You lose! " + computerChoice + " beats " + humanChoice + "!";
+	}
+	else if(humanChoice == "rock" && computerChoice == "scissors")
+	{
+		humanScore++;
+		resultPar.innerText = "You win! " + humanChoice + " beats " + computerChoice + "!";
+	}
+	else if(humanChoice == "paper" && computerChoice == "scissors")
+	{
+		computerScore++;
+		resultPar.innerText = "You lose! " + computerChoice + " beats " + humanChoice + "!";
+	}
+	else if(humanChoice == "paper" && computerChoice == "rock")
+	{
+		humanScore++;
+		resultPar.innerText = "You win! " + humanChoice + " beats " + computerChoice + "!";
+	}
+	else if(humanChoice == "scissors" && computerChoice == "rock")
+	{
+		computerScore++;
+		resultPar.innerText = "You lose! " + computerChoice + " beats " + humanChoice + "!";
+	}
+	else if(humanChoice == "scissors" && computerChoice == "paper")
+	{
+		humanScore++;
+		resultPar.innerText = "You win! " + humanChoice + " beats " + computerChoice + "!";
+	}
+	roundsPar.innerText = "Rounds: " + rounds;
+	scorePar.innerText = "Human Score: " + humanScore + "  -  Computer Score: " + computerScore;
 }
 
-function playRound(humanChoice, computerChoice) {
-	if (humanChoice == computerChoice) {
-		console.log("It's tie! Both players chose " + humanChoice + "!");
-	} else if(humanChoice == "rock" && computerChoice == "paper") {
-		computerScore++;
-		console.log("You lose! " + computerChoice + " beats " + humanChoice + "!");
-	} else if(humanChoice == "rock" && computerChoice == "scissors") {
-		humanScore++;
-		console.log("You win! " + humanChoice + " beats " + computerChoice + "!");
-	} else if(humanChoice == "paper" && computerChoice == "scissors") {
-		computerScore++;
-		console.log("You lose! " + computerChoice + " beats " + humanChoice + "!");
-	} else if(humanChoice == "paper" && computerChoice == "rock") {
-		humanScore++;
-		console.log("You win! " + humanChoice + " beats " + computerChoice + "!");
-	} else if(humanChoice == "scissors" && computerChoice == "rock") {
-		computerScore++;
-		console.log("You lose! " + computerChoice + " beats " + humanChoice + "!");
-	} else if(humanChoice == "scissors" && computerChoice == "paper") {
-		humanScore++;
-		console.log("You win! " + humanChoice + " beats " + computerChoice + "!");
-	}
-	console.log("Human Score: " + humanScore + "  -  Computer Score: " + computerScore);
-}
+let btns = document.getElementById("buttons");
+btns.addEventListener("click", (event) => {
+	playRound(event);
+});
 
-function playGame() {
-	for (let rounds = 0; rounds < 5; rounds++) {
-		let humanChoice = getHumanChoice();
-		if (humanChoice == null) {
-			console.log("Game terminated by user!")
-			console.log("Human Score: " + humanScore + "  -  Computer Score: " + computerScore);
-			break;
-		}
-		let computerChoice = getComputerChoice();
-		result = playRound(humanChoice, computerChoice);
-	}
-}
-
-playGame();
+// playGame();
